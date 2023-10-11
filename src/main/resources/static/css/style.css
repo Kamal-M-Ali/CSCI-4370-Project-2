@@ -69,3 +69,9 @@ body {
   background-color: #EEEEEE;
   padding: 12px;
 }
+
+.details {
+  text-align: left;
+  background-color: #EEEEEE;
+  padding: 20px;
+}

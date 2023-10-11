@@ -1,5 +1,8 @@
 package uga.cs4370.movieproject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.tomcat.util.json.ParseException;
+
 import java.sql.*;
 
 /**
@@ -54,11 +57,14 @@ public class DatabaseConnection {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(statement);
             callback.fn(rs);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             // handle any errors
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
+            return false;
+        } catch (ParseException e) {
+            System.out.println("JSON Exception: " + e.getMessage());
             return false;
         } finally {
             // it is a good idea to release

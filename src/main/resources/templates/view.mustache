@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Movie Reviews</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+<div class="top-bar">
+    <h3 class="header">{{title}} [{{voteAverage}} / 10]</h3>
+    {{#tagline}}
+        <h1>{{tagline}}</h1>
+    {{/tagline}}
+</div>
+
+<div class="card details">
+    {{#imdb}}
+        <a href="{{imdb}}" target="_blank">Movie site</a>
+    {{/imdb}}
+
+    <p>{{overview}}</p>
+    <p><b>Genres:</b> {{genres}}</p>
+    <p><b>Release Date:</b> {{releaseDate}}</p>
+    <p><b>Runtime:</b> {{runtime}} minutes</p>
+    <p><b>Votes:</b> {{voteCount}}</p>
+    <p><b>Budget:</b> {{budget}}</p>
+    <p><b>Revenue:</b> {{revenue}}</p>
+</div>
+</body>
+
+</html>

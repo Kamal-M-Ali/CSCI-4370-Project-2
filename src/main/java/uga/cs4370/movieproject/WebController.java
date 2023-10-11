@@ -27,6 +27,11 @@ public class WebController {
             "FROM Movies " +
             "WHERE title LIKE '%%%s%%'";
 
+    private static final String GET_MOVIE =
+            "SELECT * " +
+            "FROM Movies " +
+            "WHERE movieId=%d";
+
     @GetMapping("/")
     public ModelAndView index()
     {
@@ -61,7 +66,6 @@ public class WebController {
                     movies.add(new Movie(
                             rs.getInt("movieId"),
                             rs.getString("title"),
-                            "",
                             rs.getDouble("voteAverage")
                     ));
                 }
@@ -72,18 +76,49 @@ public class WebController {
         return mv;
     }
 
-    @GetMapping("/edit")
-    public ModelAndView edit()
+    @GetMapping("/view:{movieId}")
+    public ModelAndView view(@PathVariable int movieId)
     {
-        ModelAndView mv = new ModelAndView("edit");
+        ModelAndView mv = new ModelAndView("view");
+        DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
 
-        mv.addObject("totalMovies", "Hello from edit");
+        if (databaseConnection != null) {
+            if (databaseConnection.query(String.format(GET_MOVIE, movieId), (ResultSet rs) -> {
+                if (rs.next()) {
+                    mv.addObject("title", rs.getString("title"));
+                    mv.addObject("tagline", rs.getString("tagline"));
+                    mv.addObject("voteAverage", rs.getDouble("voteAverage"));
+                    mv.addObject("imdb", rs.getString("imdb"));
+                    mv.addObject("overview", rs.getString("overview"));
+                    mv.addObject("releaseDate", rs.getDate("releaseDate"));
+                    mv.addObject("runtime", rs.getInt("runtime"));
+                    mv.addObject("voteCount", NumberFormat.getInstance().format(rs.getInt("voteCount")));
+                    mv.addObject("budget", NumberFormat.getInstance().format(rs.getInt("budget")));
+                    mv.addObject("revenue", NumberFormat.getInstance().format(rs.getLong("revenue")));
+
+
+                    mv.addObject("genres", "");
+                }
+            })) return mv;
+        }
+
+        mv.addObject("title", "Failed to fetch movie data");
+        mv.addObject("voteAverage", "");
+        mv.addObject("tagline", "");
+        mv.addObject("imdb", "");
+        mv.addObject("overview", "");
+        mv.addObject("genres", "");
+        mv.addObject("releaseDate", "");
+        mv.addObject("runtime", "");
+        mv.addObject("voteCount", "");
+        mv.addObject("budget", "");
+        mv.addObject("revenue", "");
+
         return mv;
     }
 
-    @GetMapping("/view")
-    public ModelAndView view(@RequestParam("movieId") int movieId)
-    {
+    @GetMapping("/edit")
+    public ModelAndView edit() {
         ModelAndView mv = new ModelAndView("edit");
 
         mv.addObject("totalMovies", "Hello from edit");

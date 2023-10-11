@@ -24,11 +24,10 @@
     {{#movies}}
         <div class="card movie">
             <div>
-                <p>{{title}}</p>
-                <p>{{tagline}}</p>
-                <p>{{voteAverage}}</p>
+                <b>{{title}}</b>
+                <p>Rated {{voteAverage}}</p>
             </div>
-            <form action="/dynamic/view?={{movieId}}" method="get">
+            <form action="/dynamic/view:{{movieId}}" method="get">
                 <input class="btn" type="submit" value="View" />
             </form>
         </div>
