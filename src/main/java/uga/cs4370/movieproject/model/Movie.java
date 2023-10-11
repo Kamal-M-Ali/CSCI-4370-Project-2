@@ -6,20 +6,31 @@ public class Movie {
     private int movieId;
     private String title;
     private double voteAverage;
+    private int voteCount;
 
     public Movie()
     {
         this.movieId = 0;
         this.title = null;
         this.voteAverage = 0.0;
+        this.voteCount = 0;
     }
 
-    public Movie(int movieId, String title, double voteAverage)
+    public Movie(int movieId, String title, double voteAverage, int voteCount)
     {
         this.movieId = movieId;
         this.title = title;
         this.voteAverage = voteAverage;
+        this.voteCount = voteCount;
     }
 
     public int getMovieId() { return movieId; }
+    public double getVoteAverage() { return voteAverage; }
+    public int getVoteCount() { return voteCount; }
+
+    public void rate(double score)
+    {
+        ++voteCount;
+        voteAverage = ((voteCount - 1) * voteAverage + score) / voteCount;
+    }
 }

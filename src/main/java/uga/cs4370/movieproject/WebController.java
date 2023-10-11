@@ -19,11 +19,11 @@ public class WebController {
             "SELECT COUNT(DISTINCT movieId) AS totalMovies " +
             "FROM Movies;";
     private static final String GET_ALL_MOVIES =
-            "SELECT movieId, title, tagline, voteAverage " +
+            "SELECT movieId, title, voteAverage, voteCount " +
             "FROM Movies;";
 
     private static final String GET_MOVIE_SUBSET =
-            "SELECT movieId, title, tagline, voteAverage " +
+            "SELECT movieId, title, voteAverage, voteCount " +
             "FROM Movies " +
             "WHERE title LIKE '%%%s%%'";
 
@@ -31,6 +31,10 @@ public class WebController {
             "SELECT * " +
             "FROM Movies " +
             "WHERE movieId=%d";
+
+    private static final String DELETE_MOVIE =
+            "DELETE FROM Movies " +
+            "WHERE movieId = %d";
 
     @GetMapping("/")
     public ModelAndView index()
@@ -56,23 +60,7 @@ public class WebController {
     public ModelAndView browse(@Nullable @RequestParam("search") String search)
     {
         ModelAndView mv = new ModelAndView("browse");
-        DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
-
-        List<Movie> movies = new ArrayList<>();
-        if (databaseConnection != null) {
-            String statement = search != null ? String.format(GET_MOVIE_SUBSET, search) : GET_ALL_MOVIES;
-            databaseConnection.query(statement, (ResultSet rs) -> {
-                while (rs.next()) {
-                    movies.add(new Movie(
-                            rs.getInt("movieId"),
-                            rs.getString("title"),
-                            rs.getDouble("voteAverage")
-                    ));
-                }
-            });
-        }
-
-        mv.addObject("movies", movies);
+        mv.addObject("movies", getMovieList(search));
         return mv;
     }
 
@@ -95,8 +83,6 @@ public class WebController {
                     mv.addObject("voteCount", NumberFormat.getInstance().format(rs.getInt("voteCount")));
                     mv.addObject("budget", NumberFormat.getInstance().format(rs.getInt("budget")));
                     mv.addObject("revenue", NumberFormat.getInstance().format(rs.getLong("revenue")));
-
-
                     mv.addObject("genres", "");
                 }
             })) return mv;
@@ -118,10 +104,42 @@ public class WebController {
     }
 
     @GetMapping("/edit")
-    public ModelAndView edit() {
+    public ModelAndView edit(@Nullable @RequestParam("search") String search)
+    {
         ModelAndView mv = new ModelAndView("edit");
-
-        mv.addObject("totalMovies", "Hello from edit");
+        if (search != null)
+            mv.addObject("movies", getMovieList(search));
         return mv;
+    }
+
+    @PostMapping("/delete:{movieId}")
+    public String delete(@PathVariable int movieId)
+    {
+        DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+        if (databaseConnection != null)
+            databaseConnection.query(String.format(DELETE_MOVIE, movieId), null);
+        return "redirect:/dynamic/edit";
+    }
+
+    private List<Movie> getMovieList(String search)
+    {
+        DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+
+        List<Movie> movies = new ArrayList<>();
+        if (databaseConnection != null) {
+            String statement = search != null ? String.format(GET_MOVIE_SUBSET, search) : GET_ALL_MOVIES;
+            databaseConnection.query(statement, (ResultSet rs) -> {
+                while (rs.next()) {
+                    movies.add(new Movie(
+                            rs.getInt("movieId"),
+                            rs.getString("title"),
+                            rs.getDouble("voteAverage"),
+                            rs.getInt("voteCount")
+                    ));
+                }
+            });
+        }
+
+        return movies;
     }
 }

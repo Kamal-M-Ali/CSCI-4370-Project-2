@@ -41,11 +41,10 @@ public class DatabaseConnection {
     }
 
     /**
-     * Will attempt to execute the given SQL statement on the database.
-     * TODO: Update method to make more sense in the context of the project. Right now it's basically a copy pasted
-     *       example from eLC.
+     * If a callback is provided will executeQuery() for the statement and call the callback on the resulting set.
+     * Otherwise, if the callback is null it will just execute() the statement.
      * @param statement the sql statement to execute
-     * @param callback will call the callback function on the set resulting from the query
+     * @param callback if not null, will call the callback function on the set resulting from the query
      * @return true if query was successful, false otherwise
      */
     public boolean query(String statement, Callback callback)
@@ -55,8 +54,12 @@ public class DatabaseConnection {
 
         try {
             stmt = connection.createStatement();
-            rs = stmt.executeQuery(statement);
-            callback.fn(rs);
+            if (callback != null) {
+                rs = stmt.executeQuery(statement);
+                callback.fn(rs);
+            } else {
+                stmt.execute(statement);
+            }
         } catch (SQLException e) {
             // handle any errors
             System.out.println("SQLException: " + e.getMessage());
