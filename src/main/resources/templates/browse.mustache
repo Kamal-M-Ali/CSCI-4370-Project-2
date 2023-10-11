@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Movie Reviews</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+<div class="top-bar">
+    <h2>Browse Reviews</h2>
+    <form class="search" action="/dynamic/browse" method="get">
+        <input class="bar" type="text" placeholder="search" name="search" />
+        <input class="btn" type="submit" value="Enter" />
+    </form>
+</div>
+
+<div class="movie-box">
+    {{#movies}}
+        <div class="card movie">
+            <div>
+                <p>{{title}}</p>
+                <p>{{tagline}}</p>
+                <p>{{voteAverage}}</p>
+            </div>
+            <form action="/dynamic/view?={{movieId}}" method="get">
+                <input class="btn" type="submit" value="View" />
+            </form>
+        </div>
+    {{/movies}}
+</div>
+</body>
+
+</html>

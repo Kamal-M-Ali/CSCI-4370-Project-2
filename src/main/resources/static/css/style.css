@@ -1,4 +1,3 @@
-
 body {
   background-color: #BDBDBD;
   text-align: center;
@@ -30,4 +29,43 @@ body {
 .link {
   padding: 1rem 2rem;
   font-size: 1.5em;
+}
+
+.top-bar {
+  position: sticky;
+  background-color: gray;
+  margin: -8px -8px 16px;
+  padding: 4px 20px;
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.btn {
+  padding: 1rem 2rem;
+  font-size: 1em;
+}
+
+.bar {
+  text-align: center;
+  font-size: 1.6em;
+  flex: 1 0 auto;
+}
+
+.movie-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.movie {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #EEEEEE;
+  padding: 12px;
 }
