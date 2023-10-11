@@ -42,9 +42,10 @@ public class DatabaseConnection {
      * TODO: Update method to make more sense in the context of the project. Right now it's basically a copy pasted
      *       example from eLC.
      * @param statement the sql statement to execute
+     * @param callback will call the callback function on the set resulting from the query
      * @return true if query was successful, false otherwise
      */
-    public boolean query(String statement)
+    public boolean query(String statement, Callback callback)
     {
         Statement stmt = null;
         ResultSet rs = null;
@@ -52,23 +53,14 @@ public class DatabaseConnection {
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(statement);
-
-            int colCount = rs.getMetaData().getColumnCount();
-
-            while (rs.next()) {
-                for(int i = 1; i <= colCount; i++)
-                    System.out.print(rs.getString(i) + "\t");
-                System.out.println();
-            }
-        }
-        catch (SQLException e){
+            callback.fn(rs);
+        } catch (SQLException e){
             // handle any errors
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
             return false;
-        }
-        finally {
+        } finally {
             // it is a good idea to release
             // resources in a finally{} block
             // in reverse-order of their creation

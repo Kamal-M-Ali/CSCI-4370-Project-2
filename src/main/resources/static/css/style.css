@@ -1,0 +1,33 @@
+
+body {
+  background-color: #BDBDBD;
+  text-align: center;
+  font-family: Georgia, sans-serif;
+}
+
+.card {
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.header {
+  font-size: 4em;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.home {
+  background-color: #EEEEEE;
+  display: inline-block;
+  margin: auto;
+  padding: 4em;
+}
+
+.nav {
+  padding-top: 2em;
+}
+
+.link {
+  padding: 1rem 2rem;
+  font-size: 1.5em;
+}
