@@ -32,7 +32,7 @@ public class Database {
             "WHERE movieId=%d";
     public static final String DELETE_MOVIE =
             "DELETE FROM Movies " +
-            "WHERE movieId = %d";
+            "WHERE movieId=%d";
     public static final String UPDATE_VOTE =
             "UPDATE Movies " +
             "SET voteAverage=%f, voteCount=%d " +
@@ -42,9 +42,8 @@ public class Database {
             "VALUES ('%s','%s',%d,%d);";
     public static final String GET_MOVIE_REVIEWS =
             "SELECT title, userId, profileName, body, score, reviewedOn " +
-            "FROM Movies NATURAL LEFT OUTER JOIN Reviews NATURAL LEFT OUTER JOIN Users " +
+            "FROM Movies NATURAL JOIN Reviews NATURAL JOIN Users " +
             "WHERE movieId=%d";
-
     public static final String GET_USER_REVIEWS =
             "SELECT title, userId, profileName, body, score, reviewedOn " +
             "FROM Users NATURAL JOIN Reviews NATURAL JOIN Movies " +
