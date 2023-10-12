@@ -100,3 +100,8 @@ body {
 .comment {
   text-align: left;
 }
+
+.timestamp {
+  color: gray;
+  margin: 0
+}

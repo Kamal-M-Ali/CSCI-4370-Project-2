@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Movie Reviews</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+<div class="top-bar">
+    {{#profileName}}
+        <h1>{{profileName}}'s Profile</h1>
+    {{/profileName}}
+
+    {{^profileName}}
+        <h1>User profile</h1>
+    {{/profileName}}
+
+</div>
+
+<div class="flex-box">
+
+    <div class="card details">
+        <h2>Reviews</h2>
+        <hr/>
+
+        <div class="flex-box col">
+            {{#reviews}}
+                <div class="card comment">
+                    <p>gave {{movieTitle}} a <b>[{{score}} / 10]</b>,</p>
+                    <p><b>{{body}}</b></p>
+                    <p class="timestamp">{{reviewedOn}}</p>
+                </div>
+            {{/reviews}}
+
+            {{^reviews}}
+                <p>User hasn't given any reviews</p>
+            {{/reviews}}
+        </div>
+    </div>
+
+    <div class="card details">
+        <h2>Comments</h2>
+        <hr/>
+
+        <div class="flex-box col">
+            {{#comments}}
+                <div class="card comment">
+                    <p>commented on {{movieTitle}},</p>
+                    <p><b>{{body}}</b></p>
+                    <p class="timestamp">{{commentedOn}}</p>
+                </div>
+            {{/comments}}
+
+            {{^comments}}
+                <p>User hasn't left any comments</p>
+            {{/comments}}
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Review {
     private static final DateFormat DATE_FORMATTER = DateFormat.getDateInstance(DateFormat.SHORT);
+    private String movieTitle;
     private int userId;
     private String profileName;
     private String body;
@@ -28,5 +29,11 @@ public class Review {
         this.body = body;
         this.score = score;
         this.reviewedOn = DATE_FORMATTER.format(new Date(reviewedOn.getTime()));
+    }
+
+    public Review(String movieTitle, int userId, String profileName, String body, int score, Timestamp reviewedOn)
+    {
+        this(userId, profileName, body, score, reviewedOn);
+        this.movieTitle = movieTitle;
     }
 }

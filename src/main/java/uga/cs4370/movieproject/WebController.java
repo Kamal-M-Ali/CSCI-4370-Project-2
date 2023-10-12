@@ -58,4 +58,10 @@ public class WebController {
     {
         return apiHandler.review(movieId);
     }
+
+    @GetMapping("/user:{userId}")
+    public ModelAndView user(@PathVariable int userId)
+    {
+        return apiHandler.user(userId);
+    }
 }

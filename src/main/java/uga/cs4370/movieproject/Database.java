@@ -18,26 +18,21 @@ public class Database {
     public static final String GET_ALL_MOVIES =
             "SELECT movieId, title, voteAverage, voteCount " +
             "FROM Movies;";
-
     public static final String GET_MOVIE_SUBSET =
             "SELECT movieId, title, voteAverage, voteCount " +
             "FROM Movies " +
             "WHERE title LIKE '%%%s%%'";
-
     public static final String GET_MOVIE_WITH_COMMENTS =
             "SELECT * FROM " +
             "Movies NATURAL LEFT OUTER JOIN Comments NATURAL LEFT OUTER JOIN Users " +
             "WHERE movieId=%d";
-
     public static final String GET_MOVIE =
             "SELECT * " +
             "FROM Movies " +
             "WHERE movieId=%d";
-
     public static final String DELETE_MOVIE =
             "DELETE FROM Movies " +
             "WHERE movieId = %d";
-
     public static final String UPDATE_VOTE =
             "UPDATE Movies " +
             "SET voteAverage=%f, voteCount=%d " +
@@ -45,11 +40,22 @@ public class Database {
     public static final String ADD_COMMENT =
             "INSERT INTO Comments(body,commentedOn,movieId,userId) " +
             "VALUES ('%s','%s',%d,%d);";
-
     public static final String GET_MOVIE_REVIEWS =
             "SELECT title, userId, profileName, body, score, reviewedOn " +
             "FROM Movies NATURAL LEFT OUTER JOIN Reviews NATURAL LEFT OUTER JOIN Users " +
             "WHERE movieId=%d";
+
+    public static final String GET_USER_REVIEWS =
+            "SELECT title, userId, profileName, body, score, reviewedOn " +
+            "FROM Users NATURAL JOIN Reviews NATURAL JOIN Movies " +
+            "WHERE userId=%d " +
+            "ORDER BY reviewedOn DESC;";
+    public static final String GET_USER_COMMENTS =
+            "SELECT title, userId, profileName, body, commentedOn " +
+            "FROM Users NATURAL JOIN Comments NATURAL JOIN Movies " +
+            "WHERE userId=%d " +
+            "ORDER BY commentedOn DESC";
+    public static final String GET_USER_PROFILE = "SELECT title, userId, profileName, %d";
 
     private static final String KEY = "jdbc:mysql://localhost:33306/project2?user=root&password=mysqlpass";
     private static Database instance;

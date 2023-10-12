@@ -186,6 +186,54 @@ public class APIHandler {
         return mv;
     }
 
+    public ModelAndView user(int userId)
+    {
+        ModelAndView mv = new ModelAndView("user");
+        Database conn = Database.getInstance();
+
+        if (conn != null) {
+            conn.query(String.format("SELECT * FROM Users WHERE userId=%d", userId), (ResultSet rs) -> {
+                if (rs.next())
+                    mv.addObject("profileName", rs.getString("profileName"));
+            });
+
+            // load the users reviews
+            List<Review> reviews = new ArrayList<>();
+            conn.query(String.format(Database.GET_USER_REVIEWS, userId), (ResultSet rs) -> {
+                while (rs.next()) {
+                    reviews.add(new Review(
+                            rs.getString("title"),
+                            rs.getInt("userId"),
+                            rs.getString("profileName"),
+                            rs.getString("body"),
+                            rs.getInt("score"),
+                            rs.getTimestamp("reviewedOn")
+                    ));
+                }
+            });
+            if (!reviews.isEmpty())
+                mv.addObject("reviews", reviews);
+
+            // load the users comments
+            List<Comment> comments = new ArrayList<>();
+            conn.query(String.format(Database.GET_USER_COMMENTS, userId), (ResultSet rs) -> {
+                while (rs.next()) {
+                    comments.add(new Comment(
+                            rs.getString("title"),
+                            rs.getInt("userId"),
+                            rs.getString("profileName"),
+                            rs.getString("body"),
+                            rs.getTimestamp("commentedOn")
+                    ));
+                }
+            });
+            if (!comments.isEmpty())
+                mv.addObject("comments", comments);
+        }
+
+        return mv;
+    }
+
     private List<Movie> getMovieList(String search)
     {
         Database conn = Database.getInstance();
