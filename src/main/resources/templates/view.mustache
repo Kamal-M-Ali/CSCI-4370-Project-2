@@ -73,8 +73,8 @@
             </div>
         </div>
 
-        <form class="card flex-box comment-box" action="/dynamic/comment" method="post">
-            <textarea class="text-box" name="comment" rows="4" cols="50" placeholder="comment"></textarea>
+        <form class="card flex-box comment-box" action="/dynamic/comment:{{movieId}}" method="post">
+            <textarea class="text-box" name="body" rows="4" cols="50" placeholder="comment"></textarea>
             <input class="btn" type="submit" value="Send">
         </form>
     </div>

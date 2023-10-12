@@ -3,6 +3,8 @@ package uga.cs4370.movieproject;
 import org.apache.tomcat.util.json.ParseException;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * A singleton class for accessing the MySql database.
@@ -12,36 +14,39 @@ public class Database {
     // defining constants for the SQL statements
     public static final String GET_MOVIE_COUNT =
             "SELECT COUNT(DISTINCT movieId) AS totalMovies " +
-                    "FROM Movies;";
+            "FROM Movies;";
     public static final String GET_ALL_MOVIES =
             "SELECT movieId, title, voteAverage, voteCount " +
-                    "FROM Movies;";
+            "FROM Movies;";
 
     public static final String GET_MOVIE_SUBSET =
             "SELECT movieId, title, voteAverage, voteCount " +
-                    "FROM Movies " +
-                    "WHERE title LIKE '%%%s%%'";
+            "FROM Movies " +
+            "WHERE title LIKE '%%%s%%'";
 
     public static final String GET_MOVIE_WITH_COMMENTS =
             "SELECT * FROM " +
-                    "Movies NATURAL LEFT OUTER JOIN Comments NATURAL LEFT OUTER JOIN Users " +
-                    "WHERE movieId=%d";
+            "Movies NATURAL LEFT OUTER JOIN Comments NATURAL LEFT OUTER JOIN Users " +
+            "WHERE movieId=%d";
 
     public static final String GET_MOVIE =
             "SELECT * " +
-                    "FROM Movies " +
-                    "WHERE movieId=%d";
+            "FROM Movies " +
+            "WHERE movieId=%d";
 
     public static final String DELETE_MOVIE =
             "DELETE FROM Movies " +
-                    "WHERE movieId = %d";
+            "WHERE movieId = %d";
 
     public static final String UPDATE_VOTE =
             "UPDATE Movies " +
-                    "SET voteAverage=%f, voteCount=%d " +
-                    "WHERE movieId=%d";
+            "SET voteAverage=%f, voteCount=%d " +
+            "WHERE movieId=%d";
+    public static final String ADD_COMMENT =
+            "INSERT INTO Comments(body,commentedOn,movieId,userId) " +
+            "VALUES ('%s','%s',%d,%d);";
 
-    private static String KEY = "jdbc:mysql://localhost:33306/project2?user=root&password=mysqlpass";
+    private static final String KEY = "jdbc:mysql://localhost:33306/project2?user=root&password=mysqlpass";
     private static Database instance;
     private Connection connection;
 

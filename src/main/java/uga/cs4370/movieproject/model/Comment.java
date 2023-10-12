@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {
-    private static DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
+    private static final DateFormat DATE_FORMATTER = DateFormat.getDateInstance(DateFormat.SHORT);
     private int userId;
     private String profileName;
     private String body;
@@ -26,6 +26,6 @@ public class Comment {
         this.userId = userId;
         this.profileName = profileName;
         this.body = body;
-        this.commentedOn = format.format(new Date(commentedOn.getTime()));
+        this.commentedOn = DATE_FORMATTER.format(new Date(commentedOn.getTime()));
     }
 }
