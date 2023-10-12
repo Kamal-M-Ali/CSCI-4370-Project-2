@@ -162,9 +162,9 @@ public class APIHandler {
                 if (rs.next()) {
                     mv.addObject("title", rs.getString("title"));
 
-                    // load the comments
+                    // load the reviews
                     do {
-                        // ensures a comment exists
+                        // ensures a review exists
                         if (rs.getString("body") != null) {
                             reviews.add(new Review(
                                     rs.getInt("userId"),

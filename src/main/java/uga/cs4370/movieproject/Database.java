@@ -42,7 +42,7 @@ public class Database {
             "VALUES ('%s','%s',%d,%d);";
     public static final String GET_MOVIE_REVIEWS =
             "SELECT title, userId, profileName, body, score, reviewedOn " +
-            "FROM Movies NATURAL JOIN Reviews NATURAL JOIN Users " +
+            "FROM Movies NATURAL LEFT OUTER JOIN Reviews NATURAL LEFT OUTER JOIN Users " +
             "WHERE movieId=%d";
     public static final String GET_USER_REVIEWS =
             "SELECT title, userId, profileName, body, score, reviewedOn " +

@@ -33,7 +33,7 @@
         <div class="flex-box col">
             {{#reviews}}
                 <div class="card comment">
-                    <p>gave {{movieTitle}} a <b>[{{score}} / 10]</b>,</p>
+                    <p>gave <i>{{movieTitle}}</i> a <b>[{{score}} / 10]</b>,</p>
                     <p><b>{{body}}</b></p>
                     <p class="timestamp">{{reviewedOn}}</p>
                 </div>
@@ -52,7 +52,7 @@
         <div class="flex-box col">
             {{#comments}}
                 <div class="card comment">
-                    <p>commented on {{movieTitle}},</p>
+                    <p>commented on <i>{{movieTitle}}</i>,</p>
                     <p><b>{{body}}</b></p>
                     <p class="timestamp">{{commentedOn}}</p>
                 </div>
