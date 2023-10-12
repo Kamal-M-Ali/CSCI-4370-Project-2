@@ -7,6 +7,8 @@ body {
 .card {
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  background-color: #EEEEEE;
+  padding: 20px;
 }
 
 .header {
@@ -32,16 +34,24 @@ body {
 }
 
 .top-bar {
-  position: sticky;
   background-color: gray;
   margin: -8px -8px 16px;
   padding: 4px 20px;
 }
 
-.search {
+.flex-box {
   display: flex;
   justify-content: space-between;
   gap: 16px;
+}
+
+.col {
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 16px;
+}
+
+.search {
   margin-bottom: 16px;
 }
 
@@ -62,16 +72,31 @@ body {
   gap: 20px;
 }
 
-.movie {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #EEEEEE;
-  padding: 12px;
-}
-
 .details {
   text-align: left;
+  flex: 1 0 auto;
+  flex-shrink: 1;
+}
+
+.rate {
   background-color: #EEEEEE;
   padding: 20px;
+}
+
+.score {
+  text-align: center;
+  font-size: 1em;
+  flex: 1 0 auto;
+}
+
+.comment-box {
+  gap: 12px;
+}
+
+.text-box {
+  flex: 1 0 auto;
+}
+
+.comment {
+  text-align: left;
 }

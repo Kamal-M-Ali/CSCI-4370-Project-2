@@ -12,26 +12,74 @@
 </head>
 
 <body>
+
 <div class="top-bar">
-    <h3 class="header">{{title}} [{{voteAverage}} / 10]</h3>
+    <h3 class="header">{{title}} [{{voteAverageFixed}} / 10]</h3>
     {{#tagline}}
-        <h1>{{tagline}}</h1>
+        <h1><i>{{tagline}}</i></h1>
     {{/tagline}}
 </div>
 
-<div class="card details">
-    {{#imdb}}
-        <a href="{{imdb}}" target="_blank">Movie site</a>
-    {{/imdb}}
+<div class="flex-box col">
+    <div class="flex-box">
+        <div class="card details">
+            <h2>Details</h2>
+            <hr/>
 
-    <p>{{overview}}</p>
-    <p><b>Genres:</b> {{genres}}</p>
-    <p><b>Release Date:</b> {{releaseDate}}</p>
-    <p><b>Runtime:</b> {{runtime}} minutes</p>
-    <p><b>Votes:</b> {{voteCount}}</p>
-    <p><b>Budget:</b> {{budget}}</p>
-    <p><b>Revenue:</b> {{revenue}}</p>
+            {{#imdb}}
+                <a href="{{imdb}}" target="_blank">Movie site</a>
+            {{/imdb}}
+
+            <p>{{overview}}</p>
+            <p><b>Genres:</b> {{genres}}</p>
+            <p><b>Release Date:</b> {{releaseDate}}</p>
+            <p><b>Runtime:</b> {{runtime}} minutes</p>
+            <p><b>Votes:</b> {{voteCount}}</p>
+            <p><b>Budget:</b> {{budget}}</p>
+            <p><b>Revenue:</b> {{revenue}}</p>
+            <a href="/dynamic/view/review:{{movieId}}">View Reviews</a>
+        </div>
+
+        <div class="card details flex-box col" style="justify-content: space-between">
+            <div>
+                <h2>User Rating</h2>
+                <hr/>
+            </div>
+
+            <form class="search flex-box" action="/dynamic/rate:{{movieId}}" method="post">
+                <input class="score" type="number" placeholder="score [1-10]" name="score" min="1" max="10" />
+                <input class="btn" type="submit" value="Rate">
+            </form>
+        </div>
+    </div>
+
+    <div class="flex-box col">
+        <div class="card comment">
+            <h2>Comment Section</h2>
+            <hr/>
+
+            <div class="flex-box col">
+                {{#comments}}
+                    <div class="card comment" style="padding: 8px">
+                        <a href="/dynamic/user:{{userId}}">{{profileName}}</a>, <br/>
+                        <p><b>{{body}}</b></p>
+                        <p style="color: gray; margin: 0">{{commentedOn}}</p>
+                    </div>
+                {{/comments}}
+
+                {{^comments}}
+                    <p>Nothing much to see here...</p>
+                {{/comments}}
+            </div>
+        </div>
+
+        <form class="card flex-box comment-box" action="/dynamic/comment" method="post">
+            <textarea class="text-box" name="comment" rows="4" cols="50" placeholder="comment"></textarea>
+            <input class="btn" type="submit" value="Send">
+        </form>
+    </div>
 </div>
+
 </body>
 
 </html>

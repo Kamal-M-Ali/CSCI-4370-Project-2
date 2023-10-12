@@ -14,15 +14,15 @@
 <body>
 <div class="top-bar">
     <h2>Browse Reviews</h2>
-    <form class="search" action="/dynamic/browse" method="get">
-        <input class="bar" type="text" placeholder="search" name="search" />
+    <form class="search flex-box" action="/dynamic/browse" method="get">
+        <input class="bar" type="search" placeholder="search" name="search" />
         <input class="btn" type="submit" value="Enter" />
     </form>
 </div>
 
 <div class="movie-box">
     {{#movies}}
-        <div class="card movie">
+        <div class="card flex-box col">
             <div>
                 <b>{{title}}</b>
                 <p>Rated {{voteAverage}}</p>

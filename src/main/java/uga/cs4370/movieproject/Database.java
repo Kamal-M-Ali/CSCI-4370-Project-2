@@ -1,21 +1,51 @@
 package uga.cs4370.movieproject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.tomcat.util.json.ParseException;
 
 import java.sql.*;
 
 /**
  * A singleton class for accessing the MySql database.
- * Use the {@link DatabaseConnection#getInstance()} method to get the object.
+ * Use the {@link Database#getInstance()} method to get the object.
  */
-public class DatabaseConnection {
+public class Database {
+    // defining constants for the SQL statements
+    public static final String GET_MOVIE_COUNT =
+            "SELECT COUNT(DISTINCT movieId) AS totalMovies " +
+                    "FROM Movies;";
+    public static final String GET_ALL_MOVIES =
+            "SELECT movieId, title, voteAverage, voteCount " +
+                    "FROM Movies;";
+
+    public static final String GET_MOVIE_SUBSET =
+            "SELECT movieId, title, voteAverage, voteCount " +
+                    "FROM Movies " +
+                    "WHERE title LIKE '%%%s%%'";
+
+    public static final String GET_MOVIE_WITH_COMMENTS =
+            "SELECT * FROM " +
+                    "Movies NATURAL LEFT OUTER JOIN Comments NATURAL LEFT OUTER JOIN Users " +
+                    "WHERE movieId=%d";
+
+    public static final String GET_MOVIE =
+            "SELECT * " +
+                    "FROM Movies " +
+                    "WHERE movieId=%d";
+
+    public static final String DELETE_MOVIE =
+            "DELETE FROM Movies " +
+                    "WHERE movieId = %d";
+
+    public static final String UPDATE_VOTE =
+            "UPDATE Movies " +
+                    "SET voteAverage=%f, voteCount=%d " +
+                    "WHERE movieId=%d";
 
     private static String KEY = "jdbc:mysql://localhost:33306/project2?user=root&password=mysqlpass";
-    private static DatabaseConnection instance;
+    private static Database instance;
     private Connection connection;
 
-    private DatabaseConnection() throws SQLException
+    private Database() throws SQLException
     {
         this.connection = DriverManager.getConnection(KEY);
     }
@@ -23,13 +53,13 @@ public class DatabaseConnection {
     /**
      * Will create and return a DatabaseConnection object if one does not exist, otherwise it will return the existing
      * object.
-     * @return the {@link DatabaseConnection} object
+     * @return the {@link Database} object
      */
-    public static DatabaseConnection getInstance()
+    public static Database getInstance()
     {
         if (instance == null) {
             try {
-                instance = new DatabaseConnection();
+                instance = new Database();
             } catch (SQLException e) {
                 System.out.println("SQLException: " + e.getMessage());
                 System.out.println("SQLState: " + e.getSQLState());

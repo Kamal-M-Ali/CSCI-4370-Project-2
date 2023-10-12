@@ -14,7 +14,7 @@
 <body>
 <div class="top-bar">
     <h2>Delete Movies</h2>
-    <form class="search" action="/dynamic/edit" method="get">
+    <form class="search flex-box" action="/dynamic/edit" method="get">
         <input class="bar" type="text" placeholder="search" name="search" />
         <input class="btn" type="submit" value="Enter" />
     </form>
@@ -22,7 +22,7 @@
 
 <div class="movie-box">
     {{#movies}}
-        <div class="card movie">
+        <div class="card flex-box col">
             <b>{{title}}</b>
             <form action="/dynamic/delete:{{movieId}}" method="post">
                 <input class="btn" type="submit" value="Delete" />
