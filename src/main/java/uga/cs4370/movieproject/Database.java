@@ -46,6 +46,11 @@ public class Database {
             "INSERT INTO Comments(body,commentedOn,movieId,userId) " +
             "VALUES ('%s','%s',%d,%d);";
 
+    public static final String GET_MOVIE_REVIEWS =
+            "SELECT title, userId, profileName, body, score, reviewedOn " +
+            "FROM Movies NATURAL LEFT OUTER JOIN Reviews NATURAL LEFT OUTER JOIN Users " +
+            "WHERE movieId=%d";
+
     private static final String KEY = "jdbc:mysql://localhost:33306/project2?user=root&password=mysqlpass";
     private static Database instance;
     private Connection connection;

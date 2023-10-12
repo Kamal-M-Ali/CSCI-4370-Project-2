@@ -53,4 +53,9 @@ public class WebController {
         return apiHandler.comment(movieId, body);
     }
 
+    @GetMapping("/review:{movieId}")
+    public ModelAndView review(@PathVariable int movieId)
+    {
+        return apiHandler.review(movieId);
+    }
 }
