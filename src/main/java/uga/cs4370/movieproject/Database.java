@@ -1,10 +1,6 @@
 package uga.cs4370.movieproject;
 
-import org.apache.tomcat.util.json.ParseException;
-
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 /**
  * A singleton class for accessing the MySql database.
@@ -54,11 +50,9 @@ public class Database {
             "FROM Users NATURAL JOIN Comments NATURAL JOIN Movies " +
             "WHERE userId=%d " +
             "ORDER BY commentedOn DESC";
-    public static final String GET_USER_PROFILE = "SELECT title, userId, profileName, %d";
-
     private static final String KEY = "jdbc:mysql://localhost:33306/project2?user=root&password=mysqlpass";
     private static Database instance;
-    private Connection connection;
+    private final Connection connection;
 
     private Database() throws SQLException
     {
@@ -111,9 +105,6 @@ public class Database {
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
             return false;
-        } catch (ParseException e) {
-            System.out.println("JSON Exception: " + e.getMessage());
-            return false;
         } finally {
             // it is a good idea to release
             // resources in a finally{} block
@@ -123,16 +114,14 @@ public class Database {
             if (rs != null) {
                 try {
                     rs.close();
-                } catch (SQLException sqlEx) { } // ignore
-
+                } catch (SQLException ignored) { } // ignore
                 rs = null;
             }
 
             if (stmt != null) {
                 try {
                     stmt.close();
-                } catch (SQLException sqlEx) { } // ignore
-
+                } catch (SQLException ignored) { } // ignore
                 stmt = null;
             }
         }

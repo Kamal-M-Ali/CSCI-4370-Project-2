@@ -1,9 +1,5 @@
 package uga.cs4370.movieproject.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Date;
-
 public class Movie {
     private int movieId;
     private String title;

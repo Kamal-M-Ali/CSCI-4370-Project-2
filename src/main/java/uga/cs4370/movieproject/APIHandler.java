@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Service class for handling endpoints.
+ */
 public class APIHandler {
     public ModelAndView index()
     {
@@ -59,7 +62,7 @@ public class APIHandler {
     {
         ModelAndView mv = new ModelAndView("view");
         Database conn = Database.getInstance();
-        List<Comment> comments = new ArrayList<Comment>();
+        List<Comment> comments = new ArrayList<>();
 
         if (conn != null) {
             if(conn.query(String.format(Database.GET_MOVIE_WITH_COMMENTS, movieId), (ResultSet rs) -> {
@@ -74,7 +77,7 @@ public class APIHandler {
                     mv.addObject("voteCount", NumberFormat.getInstance().format(rs.getInt("voteCount")));
                     mv.addObject("budget", NumberFormat.getInstance().format(rs.getInt("budget")));
                     mv.addObject("revenue", NumberFormat.getInstance().format(rs.getLong("revenue")));
-                    mv.addObject("genres", "");
+                    mv.addObject("genres", getGenreListFromJSON(rs.getString("genres")));
 
                     // load the comments
                     do {
@@ -116,6 +119,7 @@ public class APIHandler {
         Database conn = Database.getInstance();
 
         if (conn != null) {
+            // query to build a movie object
             conn.query(String.format(Database.GET_MOVIE, movieId), (ResultSet rs) -> {
                 if (rs.next()) {
                     movies.add(new Movie(
@@ -127,6 +131,7 @@ public class APIHandler {
                 }
             });
 
+            // rate the movie and update the database
             movies.get(0).rate(score);
             conn.query(
                     String.format(
@@ -192,7 +197,7 @@ public class APIHandler {
         Database conn = Database.getInstance();
 
         if (conn != null) {
-            conn.query(String.format("SELECT * FROM Users WHERE userId=%d", userId), (ResultSet rs) -> {
+            conn.query(String.format("SELECT * FROM Users WHERE userId=%d;", userId), (ResultSet rs) -> {
                 if (rs.next())
                     mv.addObject("profileName", rs.getString("profileName"));
             });
@@ -234,6 +239,11 @@ public class APIHandler {
         return mv;
     }
 
+    /**
+     * A helper method to get a subset of movies from a search term.
+     * @param search the search criteria in the sql query
+     * @return a list of movies that match the search
+     */
     private List<Movie> getMovieList(String search)
     {
         Database conn = Database.getInstance();
@@ -254,5 +264,40 @@ public class APIHandler {
         }
 
         return movies;
+    }
+
+    /**
+     * Helper method to convert the JSON array from the dataset to a nicely formatted string.
+     * @param genresJSON a json object as a string to parse
+     * @return the parsed string
+     */
+    private String getGenreListFromJSON(String genresJSON)
+    {
+        StringBuilder genresParsed = new StringBuilder();
+
+        // build a string without the characters [, ], {, }, and "
+        for (int i = 0; i < genresJSON.length(); ++i) {
+            char c = genresJSON.charAt(i);
+            if (c != '[' && c != ']' && c != '{' && c != '}' && c != '"')
+                genresParsed.append(c);
+        }
+
+        // split the string on : and ,
+        String[] strings = genresParsed.toString().split("[:,]");
+
+        // build the final string
+        StringBuilder genres = new StringBuilder();
+        String prev = "";
+        for (String string : strings) {
+            if (prev.equals(" name"))
+                genres.append(string.strip()).append(", ");
+            prev = string;
+        }
+
+        // delete the extra comma
+        if (!genres.isEmpty())
+            genres.delete(genres.length() - 2, genres.length() - 1);
+
+        return genres.toString();
     }
 }

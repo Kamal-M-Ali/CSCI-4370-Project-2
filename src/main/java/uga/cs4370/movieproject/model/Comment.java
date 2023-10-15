@@ -2,7 +2,6 @@ package uga.cs4370.movieproject.model;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {

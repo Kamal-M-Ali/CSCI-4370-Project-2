@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Controller class for mapping endpoints to service code.
+ */
 @Controller
 @RequestMapping("dynamic")
 public class WebController {
